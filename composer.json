@@ -1,0 +1,7 @@
+{
+    "require": {
+        "php-webdriver/webdriver": "^1.15",
+        "react/event-loop": "^1.4.0",
+        "monolog/monolog": "^3.5"
+    }
+}
