@@ -6,3 +6,6 @@
 [2024-01-29T10:28:15.396021+08:00] name.WARNING: Cannot access "self" when no class scope is active [] []
 [2024-01-29T10:30:15.647733+08:00] name.WARNING: Cannot access "self" when no class scope is active [] []
 [2024-01-29T10:34:15.466343+08:00] name.WARNING: Cannot access "self" when no class scope is active [] []
+[2024-01-29T13:05:51.999861+08:00] name.WARNING: Curl error thrown for http POST to /session/fac5107a48c6a23736b141e9d65f8d12/url with params: {"url":"https://cryptolottery.info/en/tron"}  Operation timed out after 350444 milliseconds with 0 bytes received [] []
+[2024-01-29T16:09:09.138895+08:00] name.WARNING: Curl error thrown for http POST to /session/4c788ff4c31d3fdc31ccd2e442177185/url with params: {"url":"https://cryptolottery.info/en/tron"}  Operation timed out after 3655581 milliseconds with 0 bytes received [] []
+[2024-01-29T16:27:21.390324+08:00] name.WARNING: Curl error thrown for http DELETE to /session/4c788ff4c31d3fdc31ccd2e442177185/window  Operation timed out after 1089923 milliseconds with 0 bytes received [] []
