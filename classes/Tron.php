@@ -37,6 +37,20 @@ use Facebook\WebDriver\WebDriverBy;
 
     public static function getElements(String $currenTime, String $currentCount) {
         try {
+
+            $dateTime = new DateTime(date("Y-m-d"));
+            $dayPart = $dateTime->format('d');
+            self::$driver->findElement(WebDriverBy::className("calendar-btn_date"))->click(); 
+            $webElements = self::$driver->findElements(WebDriverBy::className("calendar-day"));
+            foreach ($webElements as $webElement) {
+                $liText = $webElement->getText();
+                if ($liText == $dayPart) {
+                    $webElement->click();
+                    break; // Exit the loop when the desired element is found
+                }
+            } 
+            self::$driver->findElement(WebDriverBy::className("confirm"))->click();
+            self::$driver->manage()->timeouts()->implicitlyWait(5); // wait 5 seconds for the page to load 
             $webElements = self::$driver->findElements(WebDriverBy::className("result-list")); 
             $webElement = $webElements[1];
             $inputString = $webElement->getText();

@@ -3,6 +3,8 @@ date_default_timezone_set('Asia/Shanghai');
 require_once("vendor/autoload.php"); 
 require_once("includer.php");
 use React\EventLoop\Loop;
+use Facebook\WebDriver\WebDriverBy; 
+
 $counter = 0;
 
 $tronTime  = (new Timeset())->getTronTime();
@@ -19,23 +21,7 @@ $timer = $loop->addPeriodicTimer(1, function ()  use ($tronTime,$counter){
             $drawTime = Tron::getTimeFromElements();
 
             echo "[currentTime: {$currentTime}] <=> [siteTime: {$drawTime}]" . PHP_EOL;
-
-            if($drawTime == "The driver server has died."){
-
-                Tron::retryLogic($counter=0);
-                Log::getLogger()->warning("Element error: The driver server has died");
-
-            }else if($drawTime == "DATA") {
-
-                Tron::retryLogic($counter=0);
-                Log::getLogger()->warning("Element error: NO DATA FOUND");
-
-            }else if($currentTime != "00:00:00" && ($drawTime == "00:00:00")){
-  
-                Tron::NextDayChecker($currentTime, $tronTime[$currentTime]);
-
-            }else{
-
+           
                 while (true) {
     
                     if ($drawTime === $currentTime) {
@@ -56,13 +42,12 @@ $timer = $loop->addPeriodicTimer(1, function ()  use ($tronTime,$counter){
                     }
                     sleep(1);
                 }
-
-            }
+            
         } catch (\Throwable $th) {
             Log::getLogger()->warning($th->getMessage());
         }
     }
-   // echo 'Tick' . $currentTime . PHP_EOL;
+   // echo 'Tick: ' . $currentTime . PHP_EOL;
 });
 echo "### DATA FETCHER STARTED ###\n\n";
 Loop::run();
