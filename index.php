@@ -33,6 +33,7 @@ $timer = $loop->addPeriodicTimer(1, function ()  use ($tronTime,$counter){
                         if ($counter >= 10) { // 10 attempt for retry
                             echo ("Timed out!!!");
                             $counter = 0;
+                            Tron::closeBrowser();
                             break;
                         } else {
                             $counter++;
