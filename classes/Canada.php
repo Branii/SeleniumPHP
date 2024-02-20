@@ -7,9 +7,53 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy; 
 
- class Tron extends Model{
+ class Canada extends Model{
     private static $driver;
-    private static $counter = 0;
+
+    public static function CanadaStart(String $currentTime, String $canadaTime) {
+
+        if(isset($canadaTime[$currentTime])){
+            try {
+                echo "Requesting Tron data => " . $currentTime . PHP_EOL;
+                self::getBrowser();
+                sleep(10);
+                $drawTime = self::getTimeFromElements();
+    
+                echo "[currentTime: {$currentTime}] <=> [siteTime: {$drawTime}]" . PHP_EOL;
+    
+                while (true) {
+    
+                    if ($currentTime == $drawTime) {
+    
+                        self::getElements($currentTime, $canadaTime[$currentTime]);
+                        self::closeBrowser();
+                        $counter = 0;
+                        break;
+                        
+                    }else {
+    
+                        if ($counter >= 10) { // 10 attempt for retry
+                            echo ("Timed out!!!");
+                            $counter = 0;
+                            self::closeBrowser();
+                            break;
+                        } else {
+                            $counter++;
+                            echo "[currentTime: {$currentTime}] <=> [siteTime: {$drawTime}] -> Retrying..." . PHP_EOL;
+                            self::retryLogic($counter);
+                        }
+    
+                    }
+    
+                    sleep(1);
+    
+                }
+    
+            } catch (\Throwable $th) {
+                Log::getLogger()->warning($th->getMessage());
+            }
+        }
+    }
     public static function getBrowser() {
         try {
             // Create an instance of ChromeOptions:
@@ -22,7 +66,7 @@ use Facebook\WebDriver\WebDriverBy;
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
             // Start a new web driver session
             self::$driver = ChromeDriver::start($capabilities);
-            self::$driver->get("https://cryptolottery.info/en/tron"); 
+            self::$driver->get("https://www.playnow.com/keno/winning-numbers/"); 
             self::$driver->manage()->timeouts()->implicitlyWait(10); // wait 10 seconds for the page to load
         } catch (\Throwable $th) {
             Log::getLogger()->warning($th->getMessage());
@@ -46,7 +90,7 @@ use Facebook\WebDriver\WebDriverBy;
             self::closeBrowser() ;
         } catch (\Throwable $th) {
             Log::getLogger()->warning($th->getMessage());
-            echo "Element Error: Tron => " . $th->getMessage();
+            echo "Element Error: CanadaKeno => " . $th->getMessage();
         }
     }
 

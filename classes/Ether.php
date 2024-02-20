@@ -7,7 +7,7 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy; 
 
- class Tron extends Model{
+ class Ether extends Model{
     private static $driver;
     private static $counter = 0;
     public static function getBrowser() {
@@ -22,7 +22,7 @@ use Facebook\WebDriver\WebDriverBy;
             $capabilities->setCapability(ChromeOptions::CAPABILITY, $chromeOptions);
             // Start a new web driver session
             self::$driver = ChromeDriver::start($capabilities);
-            self::$driver->get("https://cryptolottery.info/en/tron"); 
+            self::$driver->get("https://cryptolottery.info/en/ether"); 
             self::$driver->manage()->timeouts()->implicitlyWait(10); // wait 10 seconds for the page to load
         } catch (\Throwable $th) {
             Log::getLogger()->warning($th->getMessage());
@@ -46,7 +46,7 @@ use Facebook\WebDriver\WebDriverBy;
             self::closeBrowser() ;
         } catch (\Throwable $th) {
             Log::getLogger()->warning($th->getMessage());
-            echo "Element Error: Tron => " . $th->getMessage();
+            echo "Element Error Ether: => " . $th->getMessage();
         }
     }
 
@@ -71,6 +71,7 @@ use Facebook\WebDriver\WebDriverBy;
             $counter++;
             echo "Retry attempt: " . $counter . PHP_EOL;
             sleep(1);
+            self::$driver->quit();
             self::closeBrowser();
             self::getBrowser();
     }
@@ -93,7 +94,7 @@ use Facebook\WebDriver\WebDriverBy;
                 ":client" => 'box',
                 ":get_time" => date("H:i:s"),
             );
-           echo (new Model)->insertData("draw_10026",$param);
+           echo (new Model)->insertData("draw_10027",$param);
 
         } catch (\Throwable $th) {
             Log::getLogger()->warning($th->getMessage());
@@ -101,9 +102,9 @@ use Facebook\WebDriver\WebDriverBy;
     }
 
     public static function getFirstTwo ($currentTime,$webElements){
-        if ($currentTime == "00:04:00") {
-           self::getParams($webElements[2]->getText(), "00:58:00", "0719","off"); 
-           self::getParams($webElements[1]->getText(), "00:00:00", "0720","on");
+        if ($currentTime == "00:05:00") {
+           self::getParams($webElements[2]->getText(), "00:55:00", "0287","off"); 
+           self::getParams($webElements[1]->getText(), "00:00:00", "0288","on");
         } 
     }
 
