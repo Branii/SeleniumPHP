@@ -54,6 +54,7 @@ use Facebook\WebDriver\WebDriverBy;
             }
         }
     }
+
     public static function getBrowser() {
         try {
             // Create an instance of ChromeOptions:
@@ -166,6 +167,7 @@ use Facebook\WebDriver\WebDriverBy;
         }
         return ['message'=>'No match found'];
     }
+    
 }
 
  

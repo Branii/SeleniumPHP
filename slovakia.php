@@ -1,5 +1,5 @@
 <?php 
-date_default_timezone_set('Asia/Shanghai');
+date_default_timezone_set('Europe/Bratislava');
 require_once("vendor/autoload.php"); 
 require_once("includer.php");
 use React\EventLoop\Loop;
@@ -10,13 +10,13 @@ $counter = 0;
 $slovakiaTime  = (new Timeset())->getSlovakiaTime();
 $SlovakiaRunner = React\EventLoop\Loop::get();
 $SlovakiaRunner->addPeriodicTimer(1, function ()  use ($slovakiaTime){ // slovakia scan
-    $currentTime = Slovakia::getSlovakiaTime();
+    echo $currentTime = Slovakia::getSlovakiaTime();
     if(isset($slovakiaTime[$currentTime])){
         Slovakia::SlovakiaStart($currentTime, $slovakiaTime[$currentTime]);
     }
 });
 
-echo "### DATA FETCHER STARTED SLOVAKIA ###\n\n";
+echo "### Running ###\n\n";
 
 Loop::run();
 

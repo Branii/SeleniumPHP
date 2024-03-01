@@ -7,45 +7,21 @@ use Facebook\WebDriver\Chrome\ChromeOptions;
 use Facebook\WebDriver\Remote\DesiredCapabilities;
 use Facebook\WebDriver\WebDriverBy; 
 
- class Slovakia extends Model{
+ class SlovakiaTest extends Model{
     private static $driver;
     private static $counter = 0;
     public static function SlovakiaStart(String $currentTime, String $currentCount) {
   
             try {
-                echo "Requesting Slovakia data => " . $currentTime . PHP_EOL;
+                echo "### timeout retry ### " . $currentTime . PHP_EOL;
                 self::getBrowser();
                 sleep(5);
-                $drawTime = self::getTimeFromElements();
-    
-                echo "[currentTime: {$currentTime}] <=> [siteTime: {$drawTime}]" . PHP_EOL;
-    
-                while (true) {
-    
-                    if ($currentTime == $drawTime) {
-    
-                        self::$counter = 0;
-                        self::getElements($currentTime, $currentCount);
-                        break;
-                        
-                    }else {
-    
-                        if (self::$counter >= 10) { // 10 attempt for retry
-                            echo ("Timed out!!!");
-                            self::$counter = 0;
-                            self::closeBrowser();
-                            SlovakiaTest::SlovakiaStart($currentTime, $currentCount);
-                            break;
-                        } else {
-                            self::$counter++;
-                            self::retryLogic(self::$counter,$currentTime,$currentCount);
-                            break;
-                        }
-    
-                    }
-    
-                }
-    
+                $WebElement = self::$driver->findElement(WebDriverBy::className("btnBlue"));
+                $WebElement->click();
+                $webElementt = self::$driver->findElements(WebDriverBy::className("numbers"))[0];
+                $inputString = $webElementt->getText();
+                self::getParams($inputString, $currentTime, $currentCount);
+                self::closeBrowser() ;
             } catch (\Throwable $th) {
                 Monolog::logException($th);
             }
@@ -67,7 +43,6 @@ use Facebook\WebDriver\WebDriverBy;
             self::$driver->manage()->timeouts()->implicitlyWait(5); // wait 10 seconds for the page to load
         } catch (\Throwable $th) {
             Monolog::logException($th);
-            echo "Driver Error: => " . $th->getMessage();
         }
 
         /*
@@ -84,7 +59,6 @@ use Facebook\WebDriver\WebDriverBy;
             self::closeBrowser() ;
         } catch (\Throwable $th) {
             Monolog::logException($th);
-            echo "Element Error: Tron => " . $th->getMessage();
         }
     }
     public static function getDrawDate() {
@@ -114,7 +88,6 @@ use Facebook\WebDriver\WebDriverBy;
     }
     public static function retryLogic (Int $counter, String $currentTime, String $currentCount) {
             $counter++;
-            //echo "Retry attempt: " . $counter . PHP_EOL;
             sleep(1);
             self::closeBrowser();
             self::SlovakiaStart($currentTime,$currentCount);
@@ -146,5 +119,6 @@ use Facebook\WebDriver\WebDriverBy;
     }
     
 }
+
 
  
