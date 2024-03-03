@@ -18,7 +18,7 @@ use Facebook\WebDriver\WebDriverBy;
                 sleep(5);
                 $drawTime = self::getTimeFromElements();
     
-                echo "[currentTime: {$currentTime}] <=> [siteTime: {$drawTime}]" . PHP_EOL;
+               // echo "[currentTime: {$currentTime}] <=> [siteTime: {$drawTime}]" . PHP_EOL;
     
                 while (true) {
     
@@ -84,7 +84,7 @@ use Facebook\WebDriver\WebDriverBy;
             self::closeBrowser() ;
         } catch (\Throwable $th) {
             Monolog::logException($th);
-            echo "Element Error: Tron => " . $th->getMessage();
+            echo "Element Error: Slovakia => " . $th->getMessage();
         }
     }
     public static function getDrawDate() {
@@ -140,9 +140,9 @@ use Facebook\WebDriver\WebDriverBy;
         }
     }
     public static function getSlovakiaTime() {
-        $slovakiaTimeZone = new DateTimeZone('Europe/Bratislava');
-        $currentTime = new DateTime('now', $slovakiaTimeZone);
-        return $currentTime->format('h:i:s');
+        date_default_timezone_set('Europe/Bratislava');
+        $timeFormat = preg_replace('/^0/', '', date('H')) . date(':i:s');
+        return $timeFormat;
     }
     
 }

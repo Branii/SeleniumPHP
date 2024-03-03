@@ -20,8 +20,9 @@ use Facebook\WebDriver\WebDriverBy;
                 $WebElement->click();
                 $webElementt = self::$driver->findElements(WebDriverBy::className("numbers"))[0];
                 $inputString = $webElementt->getText();
+                var_dump($inputString);
                 self::getParams($inputString, $currentTime, $currentCount);
-                self::closeBrowser() ;
+               self::closeBrowser() ;
             } catch (\Throwable $th) {
                 Monolog::logException($th);
             }
@@ -42,6 +43,7 @@ use Facebook\WebDriver\WebDriverBy;
             self::$driver->get("https://eklubkeno.etipos.sk/"); 
             self::$driver->manage()->timeouts()->implicitlyWait(5); // wait 10 seconds for the page to load
         } catch (\Throwable $th) {
+            echo $th->getMessage();
             Monolog::logException($th);
         }
 
@@ -58,6 +60,7 @@ use Facebook\WebDriver\WebDriverBy;
             self::getParams($inputString, $currenTime, $currentCount);
             self::closeBrowser() ;
         } catch (\Throwable $th) {
+            echo $th->getMessage();
             Monolog::logException($th);
         }
     }
@@ -70,14 +73,14 @@ use Facebook\WebDriver\WebDriverBy;
         $formattedDate = $date->format('d-m-Y');
         return $formattedDate;
     }
-    public static function getTimeFromElements() : mixed {
+    public static function getTimeFromElements() {
         try {
             $webElement = self::$driver->findElement(WebDriverBy::id("_ctl0_ContentPlaceHolder_lblLastDrawTimeValue")); 
             $siteTime = explode(" ", $webElement->getText())[3];
             return $siteTime . ":00";
         } catch (\Throwable $th) {
             Monolog::logException($th);
-            return $th->getMessage();
+            echo $th->getMessage();
         }
     }
     public static function closeBrowser() {
@@ -113,9 +116,9 @@ use Facebook\WebDriver\WebDriverBy;
         }
     }
     public static function getSlovakiaTime() {
-        $slovakiaTimeZone = new DateTimeZone('Europe/Bratislava');
-        $currentTime = new DateTime('now', $slovakiaTimeZone);
-        return $currentTime->format('h:i:s');
+        date_default_timezone_set('Europe/Bratislava');
+        $timeFormat = preg_replace('/^0/', '', date('H')) . date(':i:s');
+        return $timeFormat;
     }
     
 }
