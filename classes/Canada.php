@@ -11,10 +11,8 @@ use Facebook\WebDriver\WebDriverBy;
     private static $driver;
 
     public static function CanadaStart(String $currentTime, String $canadaTime) {
-
-        if(isset($canadaTime[$currentTime])){
             try {
-                echo "Requesting Tron data => " . $currentTime . PHP_EOL;
+                echo "Requesting Canada data => " . $currentTime . PHP_EOL;
                 self::getBrowser();
                 sleep(10);
                 $drawTime = self::getTimeFromElements();
@@ -52,7 +50,7 @@ use Facebook\WebDriver\WebDriverBy;
             } catch (\Throwable $th) {
                 Log::getLogger()->warning($th->getMessage());
             }
-        }
+        
     }
 
     public static function getBrowser() {
@@ -74,11 +72,6 @@ use Facebook\WebDriver\WebDriverBy;
             echo "Driver Error: => " . $th->getMessage();
         }
 
-        /*
-         $element = $driver->wait()->until(
-         WebDriverExpectedCondition::presenceOfElementLocated(WebDriverBy::name('username'))
-         );
-         */
     }
 
     public static function getElements(String $currenTime, String $currentCount) {
@@ -95,10 +88,10 @@ use Facebook\WebDriver\WebDriverBy;
         }
     }
 
-    public static function getTimeFromElements() : mixed {
+    public static function getTimeFromElements() {
         try {
-            $webElements = self::$driver->findElements(WebDriverBy::className("result-list")); 
-            $webElement = $webElements[1];
+            $webElements = self::$driver->findElements(WebDriverBy::className("keno__winning-numbers__results__draws__draw-result")); 
+            $webElement = $webElements[1]->findElement(WebDriverBy::className("keno__winning-numbers__results__draws__draw-result__draw-time"));
             $siteTime = explode(" ", $webElement->getText())[1];
             return $siteTime;
         } catch (\Throwable $th) {
@@ -166,6 +159,12 @@ use Facebook\WebDriver\WebDriverBy;
             return ['date'=>$dateTimeObj->format('Y-m-d'),'time'=> $dateTimeObj->format('H:i:s')];
         }
         return ['message'=>'No match found'];
+    }
+
+    public static function getCanadaTime() {
+        date_default_timezone_set('America/Vancouver');
+        $timeFormat = date("H:i:s");
+        return $timeFormat;
     }
     
 }
